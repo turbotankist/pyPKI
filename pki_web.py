@@ -188,7 +188,7 @@ class Login(object):
         else:
             auth = re.sub('^Basic ', '', auth)
             username,password = base64.decodestring(auth).split(':')
-            if (username, password) in allowed:
+            if (username, password) in core.users.allowed:
                 raise web.seeother('/home')
             else:
                 authreq = True

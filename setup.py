@@ -2,7 +2,7 @@ from distutils.core import setup
 
 setup(
     name='pypki',
-    version='',
+    version='1.0',
     packages=['core'],
     url='',
     license='',
