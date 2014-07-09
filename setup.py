@@ -3,7 +3,7 @@ from distutils.core import setup
 setup(
     name='pypki',
     version='',
-    packages=['core', 'demo_pki_root.pyPKI.core'],
+    packages=['core'],
     url='',
     license='',
     author='Dennis Verslegers',

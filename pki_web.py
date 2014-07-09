@@ -13,15 +13,11 @@ import sys
 import web
 import time
 import base64
+import core.users
 
 #===============================================================================
 #  Init, things we cannot live without
 #===============================================================================
-# Define the users who have access
-allowed = (
-    ('jon', 'pass1'),
-    ('tom', 'pass2')
-)
 
 # SSL
 CherryPyWSGIServer.ssl_certificate = "pkiweb.crt"
