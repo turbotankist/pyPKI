@@ -1,0 +1,310 @@
+$def with (version)
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Generate Certificate</title>
+
+        <!-- Bootstrap -->
+        <link href="static/css/flatly/bootstrap.min.css" rel="stylesheet">
+
+        <script type='text/javascript'>
+            function bulk_request(){
+                document.getElementById('form_div').style.visibility = 'visible';
+                document.getElementById('button').style.visibility = 'visible';
+                removeCertificateTypeFields();
+                getForm('bulk');
+                document.getElementById('req_form').action = '/bulk';
+            }
+
+            function manual_request(certtype){
+                document.getElementById('form_div').style.visibility = 'visible';
+                document.getElementById('button').style.visibility = 'visible';
+                getForm(certtype);
+                document.getElementById('req_form').action = '/'+certtype;
+            }
+
+            function removeCertificateTypeFields() {
+                var element = document.getElementById('btn1')
+                if (element) {
+                    var element = document.getElementById('btn1');
+                    element.parentNode.removeChild(element);
+                    var element = document.getElementById('btn2');
+                    element.parentNode.removeChild(element);
+                }
+            }
+
+            function addCertificateTypeFields(){
+                var div = document.getElementById('toolbar');
+                var element = document.getElementById('btn1')
+                if (!element) {
+                    div.innerHTML += '<button id="btn1" type="radio" name="option" class="btn btn-info" onclick="manual_request(\'clientcertificate\')" data-toggle="button">Client Certificate</button>';
+                    div.innerHTML += '<button id="btn2" type="radio" name="option" class="btn btn-info" onclick="manual_request(\'servercertificate\')" data-toggle="button">Server Certificate</button>';
+                }
+            }
+
+            function getForm(type) {
+                if (window.XMLHttpRequest)
+                {
+                    // Create the object for browsers
+                    xmlhttp=new XMLHttpRequest();
+                }
+                else
+                {
+                    // Create the object for browser versions prior to IE 7
+                    xmlhttp=new ActiveXObject('Microsoft.XMLHTTP');
+                }
+                xmlhttp.onreadystatechange=function()
+                {
+                    // if server is ready with the response
+                    if (xmlhttp.readyState==4)
+                    {
+                        // if everything is Ok on browser
+                        if(xmlhttp.status==200)
+                        {
+                            //Update the div with the response
+                            document.getElementById('form_fields').innerHTML=xmlhttp.responseText;
+                        }
+                    }
+                }
+                //send the selected option id to the php page
+                xmlhttp.open('GET','/'+type,true);
+                xmlhttp.send();
+            }
+
+            function GetProgress() {
+                var xmlhttp;
+
+                if (window.XMLHttpRequest)
+                {// code for IE7+, Firefox, Chrome, Opera, Safari
+                    xmlhttp=new XMLHttpRequest();
+                }
+
+                xmlhttp.onreadystatechange=function()
+                {
+                    if (xmlhttp.readyState==4 && xmlhttp.status==200)
+                    {
+                        document.getElementById("pbar").style.width=xmlhttp.responseText+'%'
+                        document.getElementById("pbar").innerHTML=xmlhttp.responseText+'%'
+
+                        if (xmlhttp.responseText != 100){
+                            setTimeout(GetProgress, 50);
+                        }
+                    }
+                }
+
+                xmlhttp.open("GET","progress?q=status",true);
+                xmlhttp.send();
+            }
+
+            function PostForm(){
+                // Make visible
+                document.getElementById("progress").style.visibility = 'visible';
+
+                // Refresh stuff
+                GetProgress();
+
+                // Post form
+                document.forms["req_form"].submit();
+            }
+
+        </script>
+
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+    </head>
+
+    <body>
+        <!-- Navbar -->
+        <nav class="navbar navbar-default navbar-static-top" role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand">PKIweb $version</a>
+                </div>
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a href="/home">Home</a>
+                        </li>
+                        <li class="active">
+                            <a href="/generatecertificate">Generate Certificate</a>
+                        </li>
+                        <li>
+                            <a href="/revoke">Revoke Certificates</a>
+                        </li>
+                        <li>
+                            <a href="/report">Expiration Reporting</a>
+                        </li>
+                        <li>
+                            <a href="/config">Configuration</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Header -->
+        <div class="container-fluid">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="btn-group" data-toggle="buttons" id="toolbar">
+                        <button type='radio' name='option' value='bulk' class='btn btn-primary' onclick='bulk_request()' data-toggle='button'>Bulk request</button>
+                        <button type='radio' name='option' value='manual' class='btn btn-primary' onclick='addCertificateTypeFields()' data-toggle='button'>Manual request</button>
+                    </div>
+                    <div class="btn-group">
+                        <a data-toggle="modal" href="#info" class="btn btn-danger">Info on bulk CSV</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content Grid -->
+        <container class="container-fluid">
+            <!-- First row -->
+            <div class="row-fluid">
+                <div class="col-md-12" id="form_div" style="visibility: hidden">
+                    <form name="req_form" method="post" class="form-horizontal" id="req_form" enctype="multipart/form-data">
+                        <legend>Certificate Request Parameters</legend>
+                        <fieldset>
+                            <div id="form_fields">
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+                <div class="col-md-10" id="progress" style="visibility: hidden">
+                    <div id="pbar" class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="1" aria-valuemin="0" aria-valuemax="500" style="width: 1%; height: 3%;">
+                        1%
+                    </div>
+                </div>
+                <div class="col-md-2" id="button" style="visibility: hidden">
+                    <div align="right">
+                        <input type="button" class="btn btn-sm btn-primary" onclick="PostForm()" value="Submit"/>
+                    </div>
+                </div>
+            </div>
+        </container>
+
+        <!-- Footer -->
+        <div class="navbar-footer navbar-default navbar-fixed-bottom">
+        </div>
+
+        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <!-- Include all compiled plugins (below), or include individual files as needed -->
+        <script src="static/js/bootstrap.min.js"></script>
+    </body>
+
+<!--Bulk file format explanation modal-->
+  <div class="modal fade" id="info" tabindex="-1" role="dialog"
+  aria-labelledby="Bulk Certificate requests" arie-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+            ×
+          </button>
+          <h3 class="modal-title">
+            Bulk Certificate Request guidelines
+          </h3>
+        </div>
+        <div class="modal-body">
+          <p>Your bulk upload file must comply with the structure outlined below. Please note that the fields must
+          be placed in the correct order, separated with a comma.</p>
+          <h5>Client certificate requests</h5>
+          <table class="table">
+              <thead>
+                <tr>
+                    <th>Place</th>
+                    <th>Field</th>
+                    <th>Description</th>
+                    <th>Example</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>Country</td>
+                    <td>Two letter country code</td>
+                    <td>BE</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>State</td>
+                    <td>State of residence of recipient</td>
+                    <td>Brussels</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>Locality</td>
+                    <td>City or Location of recipient</td>
+                    <td>Brussels</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>Organisation</td>
+                    <td>Organisation of recipient</td>
+                    <td>OLAF</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>Common Name</td>
+                    <td>Common Name of the recipient</td>
+                    <td>First-name_Last-name</td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>E-mail</td>
+                    <td>E-mail address of the recipient</td>
+                    <td>first.last@organisation.net</td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td>Validity</td>
+                    <td>Validity period of the certificate</td>
+                    <td>365</td>
+                </tr>
+              </tbody>
+          </table>
+          <div class="well">
+              BE,Brussels,Brussels,OLAF,first-name_last-name,first.last@organisation.net,365
+          </div>
+          <h5>Server certificate requests</h5>
+          <table class="table">
+              <thead>
+                <tr>
+                    <th>Place</th>
+                    <th>Field</th>
+                    <th>Description</th>
+                    <th>Example</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>Common Name</td>
+                    <td>Common Name of the server</td>
+                    <td>server.domain.net</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Validity</td>
+                    <td>Validity period of the certificate</td>
+                    <td>365</td>
+                </tr>
+              </tbody>
+          </table>
+          <div class="well">
+              server.domain.net,365
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--end Bulk file format explanation modal-->
+</html>

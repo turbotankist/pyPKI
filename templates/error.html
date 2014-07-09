@@ -1,0 +1,71 @@
+$def with (error, version)
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Error</title>
+
+        <!-- Bootstrap -->
+        <link href="static/css/flatly/bootstrap.min.css" rel="stylesheet">
+    </head>
+
+    <body>
+        <!-- Navbar -->
+        <nav class="navbar navbar-default navbar-static-top" role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand">PKIweb $version</a>
+                </div>
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a href="/home">Home</a>
+                        </li>
+                        <li>
+                            <a href="/generatecertificate">Generate Certificate</a>
+                        </li>
+                        <li>
+                            <a href="/revoke">Revoke Certificates</a>
+                        </li>
+                        <li>
+                            <a href="/report">Expiration Reporting</a>
+                        </li>
+                        <li>
+                            <a href="/config">Configuration</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Header -->
+        <div class="container-fluid">
+            <!-- Page title -->
+            <div class="page-header">
+                <h1>An error <small>has occured</small></h1>
+            </div>
+        </div>
+
+        <!-- Content Grid -->
+        <container class="container-fluid">
+            <div class="row-fluid">
+                <div class="col-md-12">
+                    <p><b>The following error has occured while performing the requested operation:</b></p>
+                    <p>$error</p>
+                    <input type="button" class="btn btn-warning" value="Back" onClick="history.go(-1);return true;"/>
+                </div>
+            </div>
+        </container>
+
+        <!-- Footer -->
+        <div class="navbar-footer navbar-inverse navbar-fixed-bottom">
+        </div>
+
+        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <!-- Include all compiled plugins (below), or include individual files as needed -->
+        <script src="static/js/bootstrap.min.js"></script>
+    </body>
+</html>

@@ -1,0 +1,22 @@
+V	150227135419Z		01	unknown	/C=BE/ST=Vlaams-Brabant/L=Leuven/O=AUSY/O=not used/OU=Demo CA project/CN=server.domain.be
+R	150227135944Z	140227142338Z	02	unknown	/C=BE/ST=Vlaams-Brabant/L=Leuven/O=AUSY/O=not used/OU=Demo CA project/CN=username/emailAddress=username@domain.be
+V	150227153945Z		03	unknown	/C=BE/ST=Vlaams-Brabant/L=Leuven/O=AUSY/OU=Demo/CN=demo.server@ausy.be
+V	150227202309Z		04	unknown	/C=BE/ST=Vlaams-Brabant/L=Heverlee/O=AUSY/OU=Demo/CN=kenny/emailAddress=kenny@dataflow.be
+V	150502091830Z		05	unknown	/C=BE/ST=Brussels/L=Brussels/O=OLAF/OU=D.4 AFIS/CN=certificate_common_name/emailAddress=user@organisation.com
+V	150502092331Z		06	unknown	/C=BE/ST=Brussels/L=Brussels/O=OLAF/OU=D.4 AFIS/CN=test_cert/emailAddress=user@organisation.com
+V	150502115433Z		07	unknown	/C=BE/ST=Brussels/L=Brussels/O=OLAF/OU=D.4 AFIS/CN=cert_testing/emailAddress=user@organisation.com
+V	150502115658Z		08	unknown	/C=BE/ST=Brussels/L=Brussels/O=OLAF/OU=D.4 AFIS/CN=test_this_zip/emailAddress=user@organisation.com
+V	150502120426Z		09	unknown	/C=BE/ST=Brussels/L=Brussels/O=OLAF/OU=D.4 AFIS/CN=testing1/emailAddress=user@organisation.com
+V	150502120548Z		0A	unknown	/C=BE/ST=Brussels/L=Brussels/O=OLAF/OU=D.4 AFIS/CN=testing2/emailAddress=user@organisation.com
+V	150502120822Z		0B	unknown	/C=BE/ST=Brussels/L=Brussels/O=OLAF/OU=D.4 AFIS/CN=testing3/emailAddress=user@organisation.com
+V	150502121024Z		0C	unknown	/C=BE/ST=Brussels/L=Brussels/O=OLAF/OU=D.4 AFIS/CN=testing4/emailAddress=user@organisation.com
+V	150502121044Z		0D	unknown	/C=BE/ST=Brussels/L=Brussels/O=OLAF/OU=D.4 AFIS/CN=test5/emailAddress=user@organisation.com
+V	150502121408Z		0E	unknown	/C=BE/ST=Brussels/L=Brussels/O=OLAF/OU=D.4 AFIS/CN=testing6/emailAddress=user@organisation.com
+V	150502121753Z		0F	unknown	/C=BE/ST=Brussels/L=Brussels/O=OLAF/OU=D.4 AFIS/CN=testing7/emailAddress=user@organisation.com
+V	150502121841Z		10	unknown	/C=BE/ST=Brussels/L=Brussels/O=OLAF/OU=D.4 AFIS/CN=testing8/emailAddress=user@organisation.com
+V	150502122017Z		11	unknown	/C=BE/ST=Brussels/L=Brussels/O=OLAF/OU=D.4 AFIS/CN=testing9/emailAddress=user@organisation.com
+V	150502125725Z		12	unknown	/C=BE/ST=Brussels/L=Brussels/O=OLAF/OU=D.4 AFIS/CN=Testing17/emailAddress=user@organisation.com
+V	150502130136Z		13	unknown	/C=BE/ST=Brussels/L=Brussels/O=OLAF/OU=D.4 AFIS/CN=testing16/emailAddress=user@organisation.com
+V	150502130716Z		14	unknown	/C=BE/ST=Brussels/L=Brussels/O=OLAF/OU=D.4 AFIS/CN=Testing20/emailAddress=user@organisation.com
+V	150502131346Z		15	unknown	/C=BE/ST=Brussels/L=Brussels/O=OLAF/OU=D.4 AFIS/CN=Testing23/emailAddress=user@organisation.com
+V	150502151316Z		16	unknown	/C=BE/ST=Vlaams-Brabant/L=Leuven/O=AUSY/OU=Demo CA project/CN=Testing30/emailAddress=user@organisation.com

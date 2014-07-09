@@ -1,0 +1,16 @@
+$def with (report)
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>S</th>
+            <th>Expiration      </th>
+            <th>Common Name</th>
+        </tr>
+    </thead>
+    <tbody>
+    $for item in report:
+        <tr><td>$item['serial']</td><td>$item['status']</td><td>$item['expiration_date']</td><td>$item['commonname']</td></tr>
+    </tbody>
+</table>

@@ -1,0 +1,91 @@
+Certificate:
+    Data:
+        Version: 3 (0x2)
+        Serial Number: 2 (0x2)
+        Signature Algorithm: md5WithRSAEncryption
+        Issuer: C=BE, ST=Vlaams-Brabant, L=Leuven, O=AUSY, O=not used, OU=Demo CA project, CN=Project1CA
+        Validity
+            Not Before: Feb 27 13:59:44 2014 GMT
+            Not After : Feb 27 13:59:44 2015 GMT
+        Subject: C=BE, ST=Vlaams-Brabant, L=Leuven, O=AUSY, O=not used, OU=Demo CA project, CN=username/emailAddress=username@domain.be
+        Subject Public Key Info:
+            Public Key Algorithm: rsaEncryption
+            RSA Public Key: (2048 bit)
+                Modulus (2048 bit):
+                    00:a7:37:5f:d8:b2:a6:de:3d:76:dc:5a:2a:39:84:
+                    ef:da:75:c0:e8:bf:8e:2c:a5:95:e5:67:e4:82:d2:
+                    07:6d:3a:e2:ac:5e:af:d0:cc:09:8b:6b:ca:1d:4b:
+                    18:44:34:30:16:aa:9b:17:c8:ce:f8:59:56:3a:77:
+                    bf:8f:4d:da:de:e6:4d:03:ee:c3:2a:cf:b6:65:d1:
+                    ec:bf:81:6a:20:5e:16:8f:75:55:db:7e:74:fc:22:
+                    b0:9e:bf:0e:db:56:8a:22:e3:92:96:a3:79:79:f0:
+                    86:5a:1e:35:a3:70:b7:7a:cc:1a:31:2d:a4:79:78:
+                    26:9c:76:df:04:dc:6c:6a:b4:89:a4:08:42:ea:6a:
+                    ec:a5:25:07:25:ea:46:1a:a8:67:7f:df:9b:fa:9e:
+                    f2:c4:7d:69:07:37:0c:b9:7c:00:ff:14:69:75:02:
+                    0d:6f:de:d5:85:f6:5a:62:4c:79:35:55:6f:04:8b:
+                    47:33:04:c0:78:89:73:9f:ad:5e:39:cf:71:08:11:
+                    d2:0c:bf:b0:2a:76:d0:32:ec:63:34:fa:60:b0:10:
+                    d8:34:a7:c7:26:13:25:a8:1e:c1:bb:9b:f6:37:c3:
+                    65:dc:79:7e:63:e6:29:2e:49:58:6a:88:99:90:25:
+                    5e:fb:e3:73:3c:62:d3:57:ee:0f:cd:fb:25:fd:65:
+                    c4:0d
+                Exponent: 65537 (0x10001)
+        X509v3 extensions:
+            X509v3 Basic Constraints: 
+                CA:FALSE
+            Netscape Cert Type: 
+                SSL Client, S/MIME
+            Netscape Comment: 
+                OpenSSL Generated Client Certificate
+            X509v3 Subject Key Identifier: 
+                3F:21:57:46:38:B7:3C:8E:36:7F:97:8A:39:FE:C4:9B:33:A4:F7:1B
+            X509v3 Authority Key Identifier: 
+                keyid:CE:9B:8C:9B:C8:59:66:42:49:1A:B4:F8:35:1B:9D:7F:D4:BC:90:75
+                DirName:/C=BE/ST=Vlaams-Brabant/L=Leuven/O=AUSY/O=not used/OU=Demo CA project/CN=RootCA
+                serial:01
+
+    Signature Algorithm: md5WithRSAEncryption
+        2a:f3:b8:1f:e3:e0:18:0a:37:b4:87:c0:85:e6:a4:3e:5e:0d:
+        83:2d:25:11:40:04:86:bb:0c:72:6e:d8:92:83:c3:22:bd:72:
+        e1:47:02:e5:af:af:c6:ad:85:ae:09:96:f2:82:1e:39:c3:6c:
+        27:d8:2b:68:20:bb:e0:6f:fb:8c:dc:23:1b:40:57:f8:c1:1d:
+        59:b2:04:0f:33:3d:44:2d:73:ba:dd:85:98:e4:d5:d1:de:33:
+        8b:ef:b1:65:ba:bc:3d:f3:b7:24:a1:d6:41:26:be:5c:b0:a7:
+        d4:8e:19:0d:d4:71:eb:17:58:cc:33:ae:f6:73:c7:75:ac:f2:
+        3f:68:f2:0f:1e:e8:bf:84:3f:7f:b3:01:07:9e:a3:e8:ea:99:
+        fd:5e:ed:43:33:de:ec:69:7a:30:b0:5c:89:65:19:0f:ca:d4:
+        d6:51:13:ba:a3:4c:8f:d2:01:35:83:75:40:26:45:c6:bf:08:
+        82:d2:5d:fe:b1:d5:e5:8d:aa:f0:e0:bc:32:69:0c:f5:2e:af:
+        b3:ca:87:5a:73:29:4d:33:fd:59:e9:36:21:d9:e7:12:d9:fc:
+        de:89:04:45:8a:34:a6:76:4e:65:94:cf:dd:f5:05:66:09:22:
+        6c:07:87:a9:43:bb:36:9f:c4:bb:50:f4:58:b7:9d:a0:ea:69:
+        87:9c:6e:fd
+-----BEGIN CERTIFICATE-----
+MIIE2jCCA8KgAwIBAgIBAjANBgkqhkiG9w0BAQQFADCBiDELMAkGA1UEBhMCQkUx
+FzAVBgNVBAgTDlZsYWFtcy1CcmFiYW50MQ8wDQYDVQQHEwZMZXV2ZW4xDTALBgNV
+BAoTBEFVU1kxETAPBgNVBAoTCG5vdCB1c2VkMRgwFgYDVQQLEw9EZW1vIENBIHBy
+b2plY3QxEzARBgNVBAMTClByb2plY3QxQ0EwHhcNMTQwMjI3MTM1OTQ0WhcNMTUw
+MjI3MTM1OTQ0WjCBqTELMAkGA1UEBhMCQkUxFzAVBgNVBAgTDlZsYWFtcy1CcmFi
+YW50MQ8wDQYDVQQHEwZMZXV2ZW4xDTALBgNVBAoTBEFVU1kxETAPBgNVBAoTCG5v
+dCB1c2VkMRgwFgYDVQQLEw9EZW1vIENBIHByb2plY3QxETAPBgNVBAMTCHVzZXJu
+YW1lMSEwHwYJKoZIhvcNAQkBFhJ1c2VybmFtZUBkb21haW4uYmUwggEiMA0GCSqG
+SIb3DQEBAQUAA4IBDwAwggEKAoIBAQCnN1/YsqbePXbcWio5hO/adcDov44spZXl
+Z+SC0gdtOuKsXq/QzAmLa8odSxhENDAWqpsXyM74WVY6d7+PTdre5k0D7sMqz7Zl
+0ey/gWogXhaPdVXbfnT8IrCevw7bVooi45KWo3l58IZaHjWjcLd6zBoxLaR5eCac
+dt8E3GxqtImkCELqauylJQcl6kYaqGd/35v6nvLEfWkHNwy5fAD/FGl1Ag1v3tWF
+9lpiTHk1VW8Ei0czBMB4iXOfrV45z3EIEdIMv7AqdtAy7GM0+mCwENg0p8cmEyWo
+HsG7m/Y3w2XceX5j5ikuSVhqiJmQJV7743M8YtNX7g/N+yX9ZcQNAgMBAAGjggEq
+MIIBJjAJBgNVHRMEAjAAMBEGCWCGSAGG+EIBAQQEAwIFoDAzBglghkgBhvhCAQ0E
+JhYkT3BlblNTTCBHZW5lcmF0ZWQgQ2xpZW50IENlcnRpZmljYXRlMB0GA1UdDgQW
+BBQ/IVdGOLc8jjZ/l4o5/sSbM6T3GzCBsQYDVR0jBIGpMIGmgBTOm4ybyFlmQkka
+tPg1G51/1LyQdaGBiqSBhzCBhDELMAkGA1UEBhMCQkUxFzAVBgNVBAgTDlZsYWFt
+cy1CcmFiYW50MQ8wDQYDVQQHEwZMZXV2ZW4xDTALBgNVBAoTBEFVU1kxETAPBgNV
+BAoTCG5vdCB1c2VkMRgwFgYDVQQLEw9EZW1vIENBIHByb2plY3QxDzANBgNVBAMT
+BlJvb3RDQYIBATANBgkqhkiG9w0BAQQFAAOCAQEAKvO4H+PgGAo3tIfAheakPl4N
+gy0lEUAEhrsMcm7YkoPDIr1y4UcC5a+vxq2FrgmW8oIeOcNsJ9graCC74G/7jNwj
+G0BX+MEdWbIEDzM9RC1zut2FmOTV0d4zi++xZbq8PfO3JKHWQSa+XLCn1I4ZDdRx
+6xdYzDOu9nPHdazyP2jyDx7ov4Q/f7MBB56j6OqZ/V7tQzPe7Gl6MLBciWUZD8rU
+1lETuqNMj9IBNYN1QCZFxr8IgtJd/rHV5Y2q8OC8MmkM9S6vs8qHWnMpTTP9Wek2
+IdnnEtn83okERYo0pnZOZZTP3fUFZgkibAeHqUO7Np/Eu1D0WLedoOpph5xu/Q==
+-----END CERTIFICATE-----

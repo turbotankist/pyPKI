@@ -1,0 +1,309 @@
+
+#
+# OpenSSL Configuration file for OLAF Cloud project PKI
+#
+
+# This definition stops the following lines choking if HOME isn't
+# defined.
+HOME            = .
+RANDFILE        = $ENV::HOME/.rnd
+
+####################################################################
+[ ca ]
+default_ca  = RootCA        # The default ca section
+
+###################################################################
+[ RootCA ]
+
+dir             = /home/dennisverslegers/Documents/pypki/demo_pki_root/RootCA        # Where everything is kept
+certs           = $dir/rootca.db.certs      # Where the issued certs are kept
+crl_dir         = $dir/rootca.crl      # Where the issued crl are kept
+database        = $dir/rootca.db.index      # database index file.
+new_certs_dir   = $dir/rootca.db.certs         # default place for new certs.
+
+certificate     = $dir/rootca.crt  # The CA certificate
+serial          = $dir/rootca.db.serial     # The current serial number
+#crl            = $dir/crl.pem          # The current CRL
+private_key     = $dir/rootca.key      # The private key
+RANDFILE        = $dir/rootca.db.rand            # private random number file
+
+x509_extensions = v3_ca              # The extentions to add to the cert
+
+# Comment out the following two lines for the "traditional"
+# (and highly broken) format.
+name_opt        = ca_default            # Subject Name options
+cert_opt        = ca_default            # Certificate field options
+
+# Extension copying option: use with caution.
+# copy_extensions = copy
+
+# Extensions to add to a CRL. Note: Netscape communicator chokes on V2 CRLs
+# so this is commented out by default to leave a V1 CRL.
+# crl_extensions        = crl_ext
+
+default_days    = 3650                   # how long to certify for
+default_crl_days= 365                    # how long before next CRL
+default_md      = md5                   # which md to use.
+preserve        = no                    # keep passed DN ordering
+
+# A few difference way of specifying how similar the request should look
+# For type CA, the listed attributes must be the same, and the optional
+# and supplied fields are just that :-)
+policy          = policy_match
+unique_subject = yes
+
+# Custom parameters for pypki
+chain_file = $dir/ca_chain.crt
+use_smartcard = False
+smartcard_slot = 01:02
+
+
+[ Project1CA ]
+
+dir             = /home/dennisverslegers/Documents/pypki/demo_pki_root/Project1CA        # Where everything is kept
+certs           = $dir/project1ca.db.certs      # Where the issued certs are kept
+crl_dir         = $dir/project1ca.crl      # Where the issued crl are kept
+database        = $dir/project1ca.db.index      # database index file.
+new_certs_dir   = $dir/project1ca.db.certs         # default place for new certs.
+
+certificate     = $dir/project1ca.crt  # The CA certificate
+serial          = $dir/project1ca.db.serial     # The current serial number
+#crl            = $dir/crl.pem          # The current CRL
+private_key     = $dir/project1ca.key      # The private key
+RANDFILE        = $dir/project1ca.db.rand            # private random number file
+
+x509_extensions = usr_cert      # The extentions to add to the cert
+
+# Comment out the following two lines for the "traditional"
+# (and highly broken) format.
+name_opt    = ca_default        # Subject Name options
+cert_opt    = ca_default        # Certificate field options
+
+# Extension copying option: use with caution.
+# copy_extensions = copy
+
+# Extensions to add to a CRL. Note: Netscape communicator chokes on V2 CRLs
+# so this is commented out by default to leave a V1 CRL.
+# crl_extensions    = crl_ext
+
+default_days    = 365           # how long to certify for
+default_crl_days= 30            # how long before next CRL
+default_md  = md5           # which md to use.
+preserve    = no            # keep passed DN ordering
+
+# A few difference way of specifying how similar the request should look
+# For type CA, the listed attributes must be the same, and the optional
+# and supplied fields are just that :-)
+policy      = policy_match
+
+# A new one - quells a complaint from openssl ca
+unique_subject = yes
+
+# Custom parameters for pypki
+chain_file = $dir/ca_chain.crt
+use_smartcard = True
+smartcard_slot = 01:02
+
+
+[ Project2CA ]
+
+dir             = /home/dennisverslegers/Documents/pypki/demo_pki_root/Project2CA        # Where everything is kept
+certs           = $dir/project2ca.db.certs      # Where the issued certs are kept
+crl_dir         = $dir/project2ca.crl      # Where the issued crl are kept
+database        = $dir/project2ca.db.index      # database index file.
+new_certs_dir   = $dir/project2ca.db.certs         # default place for new certs.
+
+certificate     = $dir/project2ca.crt  # The CA certificate
+serial          = $dir/project2ca.db.serial     # The current serial number
+#crl            = $dir/crl.pem          # The current CRL
+private_key     = $dir/project2ca.key      # The private key
+RANDFILE        = $dir/project2ca.db.rand            # private random number file
+
+x509_extensions = usr_cert      # The extentions to add to the cert
+
+# Comment out the following two lines for the "traditional"
+# (and highly broken) format.
+name_opt    = ca_default        # Subject Name options
+cert_opt    = ca_default        # Certificate field options
+
+# Extension copying option: use with caution.
+# copy_extensions = copy
+
+# Extensions to add to a CRL. Note: Netscape communicator chokes on V2 CRLs
+# so this is commented out by default to leave a V1 CRL.
+# crl_extensions    = crl_ext
+
+default_days    = 365           # how long to certify for
+default_crl_days= 30            # how long before next CRL
+default_md  = md5           # which md to use.
+preserve    = no            # keep passed DN ordering
+
+# A few difference way of specifying how similar the request should look
+# For type CA, the listed attributes must be the same, and the optional
+# and supplied fields are just that :-)
+policy      = policy_match
+
+# A new one - quells a complaint from openssl ca
+unique_subject = yes
+
+# Custom parameters for pypki
+chain_file = $dir/ca_chain.crt
+use_smartcard = True
+smartcard_slot = 01:02
+
+
+# For the CA policy
+[ policy_match ]
+countryName     = match
+stateOrProvinceName = match
+localityName            = optional 
+organizationName    = optional
+organizationalUnitName  = optional
+commonName      = supplied
+emailAddress        = optional
+
+# For the 'anything' policy
+# At this point in time, you must list all acceptable 'object'
+# types.
+[ policy_anything ]
+countryName     = optional
+stateOrProvinceName = optional
+localityName        = optional
+organizationName    = optional
+organizationalUnitName  = optional
+commonName      = supplied
+emailAddress        = optional
+
+[ policy_usr ]
+countryName     = supplied
+stateOrProvinceName = supplied
+localityName        = supplied
+organizationName    = supplied
+organizationalUnitName  = optional
+commonName      = supplied
+emailAddress        = supplied
+
+####################################################################
+[ req ]
+default_bits        = 2048
+default_keyfile     = privkey.pem
+distinguished_name  = req_distinguished_name
+attributes      = req_attributes
+x509_extensions = v3_ca # The extentions to add to the self signed cert
+
+# Passwords for private keys if not present they will be prompted for
+# input_password = secret
+# output_password = secret
+
+# This sets a mask for permitted string types. There are several options.
+# default: PrintableString, T61String, BMPString.
+# pkix   : PrintableString, BMPString.
+# utf8only: only UTF8Strings.
+# nombstr : PrintableString, T61String (no BMPStrings or UTF8Strings).
+# MASK:XXXX a literal mask value.
+# WARNING: current versions of Netscape crash on BMPStrings or UTF8Strings
+# so use this option with caution!
+string_mask = nombstr
+
+# req_extensions = v3_req # The extensions to add to a certificate request
+
+[ req_distinguished_name ]
+countryName         = Country Name (2 letter code)
+countryName_default     = BE
+countryName_min         = 2
+countryName_max         = 2
+
+stateOrProvinceName     = State or Province Name (full name)
+stateOrProvinceName_default = Vlaams-Brabant
+
+localityName            = Locality Name (eg, city)
+localityName_default        = Leuven
+
+0.organizationName      = Organization Name (eg, company)
+0.organizationName_default  = AUSY
+
+1.organizationName      = Second Organization Name (eg, company)
+1.organizationName_default  = not used
+
+organizationalUnitName      = Organizational Unit Name (eg, section)
+organizationalUnitName_default  = Demo CA project
+
+commonName          = Common Name (eg, YOUR name)
+commonName_max          = 64
+
+emailAddress            = Email Address
+emailAddress_max        = 64
+
+# SET-ex3           = SET extension number 3
+
+[ req_attributes ]
+# challengePassword     = A challenge password
+# challengePassword_min     = 4
+# challengePassword_max     = 20
+
+# unstructuredName      = An optional company name
+
+[ srv_cert ]
+basicConstraints=CA:FALSE
+nsCertType            = server
+crlDistributionPoints = URI:http://example.com/crl.pem
+nsComment           = "OpenSSL Generated Server Certificate"
+
+[ usr_cert ]
+basicConstraints=CA:FALSE
+nsCertType = client, email
+nsComment           = "OpenSSL Generated Client Certificate"
+subjectKeyIdentifier=hash
+authorityKeyIdentifier=keyid,issuer:always
+
+[ v3_req ]
+
+# Extensions to add to a certificate request
+
+basicConstraints = CA:FALSE
+keyUsage = nonRepudiation, digitalSignature, keyEncipherment
+
+[ v3_ca ]
+
+
+# Extensions for a typical CA
+
+
+# PKIX recommendation.
+
+subjectKeyIdentifier=hash
+
+authorityKeyIdentifier=keyid:always,issuer:always
+
+# This is what PKIX recommends but some broken software chokes on critical
+# extensions.
+#basicConstraints = critical,CA:true
+# So we do this instead.
+basicConstraints = CA:true
+
+# Key usage: this is typical for a CA certificate. However since it will
+# prevent it being used as an test self-signed certificate it is best
+# left out by default.
+# keyUsage = cRLSign, keyCertSign
+
+# Some might want this also
+# nsCertType = sslCA, emailCA
+
+# Include email address in subject alt name: another PKIX recommendation
+# subjectAltName=email:copy
+# Copy issuer details
+# issuerAltName=issuer:copy
+
+# DER hex encoding of an extension: beware experts only!
+# obj=DER:02:03
+# Where 'obj' is a standard or added object
+# You can even override a supported extension:
+# basicConstraints= critical, DER:30:03:01:01:FF
+
+[ crl_ext ]
+
+# CRL extensions.
+# Only issuerAltName and authorityKeyIdentifier make any sense in a CRL.
+
+# issuerAltName=issuer:copy
+authorityKeyIdentifier=keyid:always,issuer:always

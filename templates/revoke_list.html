@@ -1,0 +1,19 @@
+$def with (cert_list)
+
+<br>
+<br>
+<table class="table">
+    <thead>
+        <tr>
+            <th></th>
+            <th>#</th>
+            <th>S</th>
+            <th>Expiration      </th>
+            <th>Common Name</th>
+        </tr>
+    </thead>
+    <tbody>
+    $for cert in cert_list:
+        <tr><td><input type="checkbox" name="$cert['serial']" value="R"/></td><td>$cert['serial']</td><td>$cert['status']</td><td>$cert['expiration_date']</td><td>$cert['commonname']</td></tr>
+    </tbody>
+</table>

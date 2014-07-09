@@ -1,0 +1,12 @@
+body {
+    padding-top: 70px;
+}
+
+label {
+    margin-right: 40px;
+}
+
+.form-control {
+    width: 150%;
+    text-align: left;
+}
