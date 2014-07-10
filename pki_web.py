@@ -227,7 +227,7 @@ class Config(object):
             form = config_form()
 
             if not form.validates():
-                return render.configuration(form)
+                return render.configuration(form, version)
 
             # Update configuration
             config['pkiroot'] = configfile['pkiroot'] = form.pkiroot.value
@@ -237,7 +237,7 @@ class Config(object):
             # Write configuration to disk
             configfile.write()
 
-            return render.configuration(form)
+            return render.configuration(form, version)
 
         else:
             raise web.seeother('/login')
@@ -286,7 +286,7 @@ class ClientCertificate(object):
                 form.organisationalunit.value = defaultcsr.organisationalunit
                 form.validity.value = 365
 
-                return render.generatecertificate_err(form)
+                return render.generatecertificate_err(form, version)
 
             # Prepare csr data based on form input
             csr_data = {'certtype': data['certtype'],
@@ -304,7 +304,7 @@ class ClientCertificate(object):
                 # Generate certificate based on CSR
                 crt = generate_certificate(csr_data, ca_list, data['selected_ca'], data['password'])
             except Exception as e:
-                return render.error(e)
+                return render.error(e, version)
 
             # Prepare certificate for download
             crt_list = [crt, ]
@@ -350,7 +350,7 @@ class ServerCertificate(object):
                 form.organisationalunit.value = defaultcsr.organisationalunit
                 form.validity.value = 365
 
-                return render.generatecertificate_err(form)
+                return render.generatecertificate_err(form, version)
 
             # Prepare csr data based on form input
             csr_data = {'certtype': data['certtype'],
@@ -402,7 +402,7 @@ class Bulk(object):
                 # Set values of CA's
                 form.selected_ca.args = [ca.name for ca in ca_list]
 
-                return render.generatecertificate_err(form)
+                return render.generatecertificate_err(form, version)
 
             csr_data_list = csv_to_csr_data(data['req_list'], cert_type=data['certtype'])
 
@@ -470,7 +470,7 @@ class Revoke(object):
 
             form = revoke_form()
             form.selected_ca.args = ['', ] + [ca.name for ca in ca_list]
-            return render.revoke(form)
+            return render.revoke(form, version)
 
         else:
             raise web.seeother('/login')
