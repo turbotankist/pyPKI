@@ -201,7 +201,7 @@ class CA(object):
         else:
             cmd = 'openssl ca -config {configfile} ' \
                   '-name {ca_name} ' \
-                  '-passin pass:{password}' \
+                  '-passin pass:{password} ' \
                   '-batch ' \
                   '-gencrl ' \
                   '-out {crlpemfile}'.format(configfile=self.configfile,
