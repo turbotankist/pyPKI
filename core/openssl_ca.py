@@ -270,19 +270,33 @@ class CSR(object):
 
     def _generate_openssl_cfg(self):
         # Prepare openssl config file for openssl_csr generation
-        self.openssl_cfg_string = '[ req ]\n' \
+         self.openssl_cfg_string = '[ req ]\n' \
                                   'default_bits = {keylength}\n' \
                                   'prompt = no\n' \
                                   'default_md = sha265\n' \
-                                  'distinguished_name = dn\n' \
-                                  '[ dn ]\n' \
+                                  'distinguished_name = dn\n'.format(keylength=self.keylength)
+
+        if self.certtype == 'Server':
+            # Add SAN attribute to certificate
+            # in order to make this work add the following line to your openssl.cnf file in the InntermCA section:
+            # copy_extensions = copy
+            self.openssl_cfg_string += 'req_extensions = req_ext\n'\
+                                       '[ req_ext ]\n' \
+                                       'subjectKeyIdentifier = hash\n' \
+                                       'basicConstraints = CA:FALSE\n' \
+                                       'keyUsage = digitalSignature, keyEncipherment\n' \
+                                       'subjectAltName = @alternate_names\n' \
+                                       'nsComment = "OpenSSL Generated Certificate\n' \
+                                       '[ alternate_names ]\n' \
+                                       'DNS.1 = {commonname}\n'.format(commonname=self.commonname)
+
+        self.openssl_cfg_string += '[ dn ]\n' \
                                   'CN = {commonname}\n' \
                                   'OU = {organisationalunit}\n' \
                                   'O = {organisation}\n' \
                                   'L = {locality}\n' \
                                   'ST = {state}\n' \
-                                  'C = {country}\n'.format(keylength=self.keylength,
-                                                           commonname=self.commonname,
+                                  'C = {country}\n'.format(commonname=self.commonname,
                                                            organisationalunit=self.organisationalunit,
                                                            organisation=self.organisation,
                                                            locality=self.locality,
