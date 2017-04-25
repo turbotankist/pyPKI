@@ -270,7 +270,7 @@ class CSR(object):
 
     def _generate_openssl_cfg(self):
         # Prepare openssl config file for openssl_csr generation
-         self.openssl_cfg_string = '[ req ]\n' \
+        self.openssl_cfg_string = '[ req ]\n' \
                                   'default_bits = {keylength}\n' \
                                   'prompt = no\n' \
                                   'default_md = sha265\n' \
