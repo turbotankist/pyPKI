@@ -52,6 +52,11 @@ preserve    = no
 
 policy          = policy_match
 
+
+use_smartcard = False
+smartcard_slot = 0:2
+chain_file = $dir/ca_chain.crt
+
 [ policy_match ]
 countryName     = match
 stateOrProvinceName = optional

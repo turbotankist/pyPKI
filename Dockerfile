@@ -1,14 +1,21 @@
 FROM python:2.7-alpine
 
-RUN mkdir -p /PKI/pypki  && mkdir /PKI/pki-root
-WORKDIR /PKI
+RUN mkdir -p /PKI/pypki 
+WORKDIR /PKI/pypki/
 
 COPY . /PKI/pypki
 
-RUN cd /PKI && easy_install pypki \
-&& pip install cherrypy-wsgiserver \
-&& cp pypki/openssl.cnf pki-root \
-&& cp -r pypki/RootCA pki-root \
-&& cp -r pypki/ca pki-root
+RUN apk add --no-cache gcc musl-dev libffi-dev openssl-dev easy-rsa \
+&& ln -s /usr/share/easy-rsa/easyrsa /bin/easyrsa \
+&& pip install  pyOpenSSL \
+&& cd /PKI && easy_install pypki \
+&& cp pypki/openssl-1.0.cnf . \
+&& easyrsa init-pki 
+# easyrsa build-ca 
+# easyrsa gen-dh
+# easyrsa gen-crl
 
-CMD python /PKI/pypki/pki_web.py
+ENV CA_DN="CA_default" \
+
+
+CMD python pki_web.py
