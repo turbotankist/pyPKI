@@ -15,7 +15,7 @@ RUN apk add --no-cache gcc musl-dev libffi-dev openssl-dev easy-rsa \
 # easyrsa gen-dh
 # easyrsa gen-crl
 
-ENV CA_DN="CA_default" \
+ENV CA_DN="CA_default" 
 
 
 CMD python pki_web.py

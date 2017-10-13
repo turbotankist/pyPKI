@@ -1,4 +1,4 @@
-__author__ = 'dennisverslegers'
+__author__ = 'turbotankist'
 
 from datetime import date
 from validate import Validator
@@ -40,11 +40,13 @@ urls = ('/', 'Home',
 render = web.template.render('templates/')
 app = web.application(urls, globals())
 
+BASE_PATH="/home/alexey/stepcart/alex/pypki/"
 # Read configuration file
-configfile = ConfigObj('./config/pki.cfg', configspec='./config/pkispec.cfg')
+configfile = ConfigObj('config/pki.cfg', configspec='config/pkispec.cfg')
 
 # Validate configuration file
 validator = Validator()
+
 valid = configfile.validate(validator)
 
 # Exit in case of troubles
@@ -61,7 +63,7 @@ config = {'pkiroot': configfile['pkiroot'],
 ca_list, defaultcsr = opensslconfigfileparser(config['opensslconfigfile'], config['canames'])
 
 bulk_progress = 0
-version = '1.0'
+version = '1.1'
 #===============================================================================
 #  Functions required for the web interface to work
 #===============================================================================
@@ -528,7 +530,7 @@ class Progress(object):
 
 
 def main():
-    web.config.debug = False
+    web.config.debug = True
     # Start the web application
     web.internalerror = web.debugerror
     app.add_processor(web.loadhook(authentication))

@@ -435,13 +435,13 @@ def opensslconfigfileparser(opensslconfigfile, canames):
             c.certificateoutputpath = os.path.join(c.dir, c.new_certs_dir)
 
             # Some mojo here to avoid complicated solutions
-            if opensslconfig[caname]['use_smartcard'] == 'True':
-                c.use_smartcard = True
-            else:
-                c.use_smartcard = False
-
-            c.smartcard_slot = opensslconfig[caname]['smartcard_slot']
-            c.chain_file = opensslconfig[caname]['chain_file'].strip('$dir').strip('/')
+            if opensslconfig[caname]['use_smartcard']:
+                if opensslconfig[caname]['use_smartcard'] == 'True':
+                    c.use_smartcard = True
+                else:
+                    c.use_smartcard = False
+                c.smartcard_slot = opensslconfig[caname]['smartcard_slot']
+                c.chain_file = opensslconfig[caname]['chain_file'].strip('$dir').strip('/')
             calist.append(c)
 
         # Obtaining default CSR settings from OpenSSL configuration file contents

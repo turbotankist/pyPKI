@@ -1,4 +1,4 @@
-RANDFILE		= /PKI/pki/.rnd
+RANDFILE		= pki/.rnd
 
 ####################################################################
 [ ca ]
@@ -7,7 +7,7 @@ default_ca	= CA_default		# The default ca section
 ####################################################################
 [ CA_default ]
 
-dir		= /PKI/pki	# Where everything is kept
+dir		= pki	# Where everything is kept
 certs		= $dir			# Where the issued certs are kept
 crl_dir		= $dir			# Where the issued crl are kept
 database	= $dir/index.txt	# database index file.
