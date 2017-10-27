@@ -363,6 +363,21 @@ def generate_p12(crt):
     # return crt object
     return crt
 
+def pki_init(dir_arg, passwd):
+    run_cmd("./init-pki.sh " + dir_arg)
+    cmd = "openssl genrsa -aes256 -out %s/ca.key -passout pass:%s 4096" %(dir_arg, passwd)
+    run_cmd(cmd)
+
+    cmd = "openssl req -new -x509 -days 3650 " \
+          "-key {directory}/ca.key " \
+          "-out {directory}/ca.crt " \
+          "-config openssl-1.0.cnf " \
+          "-passin pass:{password} -batch" .format(directory=dir_arg,
+                                            password=passwd)
+    args = "RU\n\n\nstepcart\n\n\nserv1\n"
+    run_cmd(cmd)
+    cmd = "cat %s/ca.crt > %s/ca_chain.crt" %(dir_arg,dir_arg)
+    run_cmd(cmd)
 
 def run_cmd(cmd, input=None):
     process = Popen(cmd.split(), shell=False, stdin=PIPE, stdout=PIPE, stderr=PIPE)

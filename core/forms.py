@@ -242,3 +242,33 @@ report_form = BootstrapFormInline(
                  description='Timeframe to check',
                  value='365'),
 )
+
+init_form = BootstrapFormInline(
+    form.Dropdown('selected_ca',
+                  [('value1', 'description1'), ('value2', 'description2')],
+                  class_='form-control input-sm',
+                  description='Select CA'),
+    form.Textbox('company',
+                 form.notnull,
+                 class_='form-control input-sm',
+                 description='Company name',
+                 value=''),
+    form.Textbox('cn',
+                 form.notnull,
+                 class_='form-control input-sm',
+                 description='server CN',
+                 value=''),
+    form.Textbox('period',
+                 form.regexp('([\d+])', 'Please provide a valid duration'),
+                 class_='form-control input-sm',
+                 description='Timeframe to check',
+                 value='3650'),
+    form.Password('password',
+                  form.notnull,
+                  class_='form-control input-sm',
+                  description='Password'),
+    form.Password('password_v',
+                  form.notnull,
+                  class_='form-control input-sm',
+                  description='Verifying Password')
+)

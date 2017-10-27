@@ -5,7 +5,8 @@ from validate import Validator
 from configobj import ConfigObj
 from web.wsgiserver import CherryPyWSGIServer
 from core.openssl_ca import run_cmd, run_cmd_pexpect, generate_password, opensslconfigfileparser, generate_certificate
-from core.forms import config_form, usercert_form, servercert_form, bulkcert_form, revoke_form, report_form
+from core.openssl_ca import pki_init
+from core.forms import config_form, usercert_form, servercert_form, bulkcert_form, revoke_form, report_form, init_form
 
 import os
 import re
@@ -20,6 +21,7 @@ import core.users
 #===============================================================================
 
 # SSL
+
 CherryPyWSGIServer.ssl_certificate = "pkiweb.crt"
 CherryPyWSGIServer.ssl_private_key = "pkiweb.key"
 
@@ -35,12 +37,12 @@ urls = ('/', 'Home',
         '/crl', 'Crl',
         '/report', 'Report',
         '/login', 'Login',
-        '/progress', 'Progress')
+        '/progress', 'Progress',
+        '/init', 'PKIinit')
 
 render = web.template.render('templates/')
 app = web.application(urls, globals())
 
-BASE_PATH="/home/alexey/stepcart/alex/pypki/"
 # Read configuration file
 configfile = ConfigObj('config/pki.cfg', configspec='config/pkispec.cfg')
 
@@ -207,6 +209,24 @@ class Home(object):
 
         else:
             raise web.seeother('/login')
+
+class PKIinit(object):
+    def GET(self):
+        form = init_form()
+        return render.init(form, version)
+
+    def POST(self):
+        form = init_form()
+        data = web.input()
+
+        if not form.validates():
+            return render.init(form, version)
+        if data['password'] != data['password_v']:
+            return render.init(form, version)
+
+        pki_init("pki", data['password'])
+        return render.home(version)
+
 
 
 class Config(object):
