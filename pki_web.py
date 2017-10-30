@@ -5,7 +5,7 @@ from validate import Validator
 from configobj import ConfigObj
 from web.wsgiserver import CherryPyWSGIServer
 from core.openssl_ca import run_cmd, run_cmd_pexpect, generate_password, opensslconfigfileparser, generate_certificate
-from core.openssl_ca import pki_init
+from core.openssl_ca import pki_init, is_init
 from core.forms import config_form, usercert_form, servercert_form, bulkcert_form, revoke_form, report_form, init_form
 
 import os
@@ -178,6 +178,7 @@ def authentication():
             raise web.seeother('/login')
 
 
+
 #===============================================================================
 #  Web interface URI's
 #===============================================================================
@@ -193,7 +194,9 @@ class Login(object):
             auth = re.sub('^Basic ', '', auth)
             username,password = base64.decodestring(auth).split(':')
             if (username, password) in core.users.allowed:
-                raise web.seeother('/home')
+                if not is_init():
+                    raise web.seeother('/init')
+                else: raise web.seeother('/home')
             else:
                 authreq = True
         if authreq:
@@ -212,8 +215,11 @@ class Home(object):
 
 class PKIinit(object):
     def GET(self):
+        if is_init():
+            current = "Caution! There is rootCA already.\nThis will clear old one!"
+        else: current = "Create new RootCA"
         form = init_form()
-        return render.init(form, version)
+        return render.init(form, version, current)
 
     def POST(self):
         form = init_form()
@@ -223,8 +229,10 @@ class PKIinit(object):
             return render.init(form, version)
         if data['password'] != data['password_v']:
             return render.init(form, version)
-
-        pki_init("pki", data['password'])
+        try:
+            pki_init("pki", data['password'],data['company'],data['cn'])
+        except Exception as e:
+            return render.error(e, version)
         return render.home(version)
 
 

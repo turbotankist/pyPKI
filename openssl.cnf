@@ -116,7 +116,7 @@ emailAddress_max        = 64
 # unstructuredName      = An optional company name
 
 [ srv_cert ]
-basicConstraints=CA:FALSEcommonName_default
+basicConstraints=CA:FALSE
 nsCertType            = server
 crlDistributionPoints = URI:http://openca.stepcart.com/crl.pem
 nsComment           = "OpenSSL Generated Server Certificate"
