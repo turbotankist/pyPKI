@@ -5,7 +5,7 @@ from validate import Validator
 from configobj import ConfigObj
 from web.wsgiserver import CherryPyWSGIServer
 from core.openssl_ca import run_cmd, run_cmd_pexpect, generate_password, opensslconfigfileparser, generate_certificate
-from core.openssl_ca import pki_init, is_init
+from core.openssl_ca import pki_init, is_init, is_csr
 from core.forms import config_form, usercert_form, servercert_form, bulkcert_form, revoke_form, report_form, init_form
 
 import os
@@ -214,21 +214,24 @@ class Home(object):
             raise web.seeother('/login')
 
 class PKIinit(object):
-    def GET(self):
+    def __init__(self):
         if is_init():
-            current = "Caution! There is rootCA already.\nThis will clear old one!"
-        else: current = "Create new RootCA"
+            self.current = 'Caution! There is rootCA already.<br/>This will clear old one!'
+        else: self.current = "Create new RootCA"
+
+    def GET(self):
         form = init_form()
-        return render.init(form, version, current)
+        return render.init(form, version, self.current)
 
     def POST(self):
         form = init_form()
         data = web.input()
 
         if not form.validates():
-            return render.init(form, version)
+            return render.init(form, version, self.current)
         if data['password'] != data['password_v']:
-            return render.init(form, version)
+            return render.error("Passwords do not match", version)
+            #return render.init(form, version, self.current+' <br/> Passwords do not match')
         try:
             pki_init("pki", data['password'],data['company'],data['cn'])
         except Exception as e:
@@ -434,20 +437,35 @@ class Bulk(object):
 
                 return render.generatecertificate_err(form, version)
 
-            csr_data_list = csv_to_csr_data(data['req_list'], cert_type=data['certtype'])
-
             crt_list = []
-
-            for csr_data in csr_data_list:
+            csr_file, csr_data = is_csr(data['req_list'])
+            if csr_file:
                 try:
-                    crt = generate_certificate(csr_data, ca_list, data['selected_ca'], data['password'])
-
-                    bulk_progress += 100/len(csr_data_list)
-
+                    csr_data['commonname'] = csr_data.pop('CN')
+                    csr_data['country'] = csr_data.pop('C')
+                    csr_data['organisation'] = csr_data.pop('O','nor used')
+                    csr_data['organisation'] = csr_data.pop('O','nor used')
+                    csr_data['certtype'] = data['certtype']
+                    csr_data['email'] = csr_data.pop('emailAddress','nor used')
+                    crt = generate_certificate(csr_data, ca_list, data['selected_ca'], data['password'],csr_file=data['req_list'])
+                    crt_list.append(crt)
                 except Exception as e:
                     return render.error(e, version)
+            else:
+                try:
+                    csr_data_list = csv_to_csr_data(data['req_list'], cert_type=data['certtype'])
+                except:
+                    return render.error("pls, give a csr or bulk request file", version)
+                for csr_data in csr_data_list:
+                    try:
+                        crt = generate_certificate(csr_data, ca_list, data['selected_ca'], data['password'])
 
-                crt_list.append(crt)
+                        bulk_progress += 100/len(csr_data_list)
+
+                    except Exception as e:
+                        return render.error(e, version)
+
+                    crt_list.append(crt)
 
             zipfile, password = prepare_crt_for_download(crt_list)
 

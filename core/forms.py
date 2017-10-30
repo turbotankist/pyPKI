@@ -202,7 +202,7 @@ bulkcert_form = BootstrapFormTable(
                   class_='form-control input-sm input-sm',
                   description='Select CA'),
     form.Dropdown('certtype',
-                  ['Select', 'Client', 'Server'],
+                  ['Client', 'Server'],
                   class_='form-control input-sm input-sm',
                   description='Select Certificate Type'),
     form.Password('password',

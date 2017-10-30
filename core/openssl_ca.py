@@ -339,8 +339,8 @@ def convert_openssl_time(datetime):
     return expiration_date
 
 
-def generate_p12(crt):
-    # Generate password for p12 container
+def generate_p12(crt, p12_enable=True):
+    """ Generate password for p12 container"""
     password = generate_password(13)
     crt.p12pwd = password
     write_to_file(crt.p12pwdfile, crt.p12pwd)
@@ -358,12 +358,14 @@ def generate_p12(crt):
                                              p12file=crt.p12file,
                                              chainfile=crt.chainfile,
                                              password=crt.p12pwd)
-    run_cmd(cmd)
+    if p12_enable:
+        run_cmd(cmd)
 
     # return crt object
     return crt
 
 def pki_init(dir_arg, passwd, org, srv):
+    """Init pki sript"""
     run_cmd("./init-pki.sh " + dir_arg)
     cmd = "openssl genrsa -aes256 -out %s/ca.key -passout pass:%s 4096" %(dir_arg, passwd)
     run_cmd(cmd)
@@ -377,18 +379,31 @@ def pki_init(dir_arg, passwd, org, srv):
     args = "RU\n\n\n{organisation}\n\n\n{server}\n".format(organisation=org,
                                             server=srv)
     run_cmd(cmd)
-    cmd = "cat %s/ca.crt > %s/ca_chain.crt" %(dir_arg,dir_arg)
+    cmd = "cp %s/ca.crt %s/ca_chain.crt" % (dir_arg, dir_arg)
     run_cmd(cmd)
 
 def is_init():
+    """check if rootCA already exists"""
     try:
         ca_check = run_cmd("openssl x509 -text -noout -in pki/ca.crt")
         return True
     except: 
        return False
-    
+
+def is_csr(csr):
+    """check file for csr format
+    and return csr subject"""
+    try:
+        csr_check = run_cmd("openssl req -in /dev/stdin -noout -subject", input=csr)
+        csr_data = {}
+        for item in csr_check.split('/'):
+            csr_data[item.split('=')[0]] = item.split('=')[1]
+        return True, csr_data
+    except:
+        return False, {} 
 
 def run_cmd(cmd, input=None):
+    """run commant in shell"""
     process = Popen(cmd.split(), shell=False, stdin=PIPE, stdout=PIPE, stderr=PIPE)
     stdout, stderr = process.communicate(input=input)
 
@@ -481,13 +496,17 @@ def opensslconfigfileparser(opensslconfigfile, canames):
         raise Exception('Failed to read openssl config file', opensslconfigfile)
 
 
-def generate_certificate(csr_data, calist, caname, password):
+def generate_certificate(csr_data, calist, caname, password, csr_file=None):
     # Generate CSR object based on provided request data
     csr = CSR()
     csr.from_dict(csr_data)
 
     # Generate openssl csr
-    csr.generate_openssl_csr()
+    if csr_file:
+        csr.openssl_csr = csr_file
+        #need to p12_enable=False
+    else:
+        csr.generate_openssl_csr()
 
     # Select proper CA
     ca = [c for c in calist if c.name == caname][0]
@@ -495,5 +514,5 @@ def generate_certificate(csr_data, calist, caname, password):
     # Sign request
     crt = ca.sign_cert_request(csr, password)
 
-    generate_p12(crt)
+    generate_p12(crt, p12_enable=False)
     return crt

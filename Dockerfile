@@ -5,7 +5,7 @@ WORKDIR /PKI/pypki/
 
 COPY . /PKI/pypki
 
-RUN apk add --no-cache gcc musl-dev libffi-dev openssl-dev easy-rsa \
+RUN apk add --no-cache gcc musl-dev libffi-dev openssl-dev easy-rsa bash \
 && ln -s /usr/share/easy-rsa/easyrsa /bin/easyrsa \
 && pip install  pyOpenSSL \
 && cd /PKI && easy_install pypki \

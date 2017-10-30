@@ -1,146 +1,141 @@
+
+RANDFILE                = openvpn/pki/.rnd
+
+####################################################################
 [ ca ]
-default_ca  = CA        # The default ca section
+default_ca      = CA_default            # The default ca section
 
-[ RootCA ]
-dir     = ./ca         
-# Where everything is kept
-certs       = /ca.db.certs      
-# Where the issued certs are kept
-crl_dir = /ca.db.crl         
-# Where the issued crl are kept
-database    = /ca.db.index     
-# database index file.
-unique_subject = no           
-# Set to 'no' to allow creation of several ctificates with same subject.
-new_certs_dir   = /ca.db.certs 
-# default place for new certs.
-certificate = /ca.crt   
-# The CA certificate
-serial      = /ca.db.serial     
-# The current serial number
-crlnumber   = /ca.db.crlserial  
-# the current crl number must be commented out to leave a V1 CRL
-private_key = /ca.key             
-# The private key
-RANDFILE    = /ca.db.rand        
-# private random number file
-name_opt    = ca_default        
-# Subject Name options
-cert_opt    = ca_default        
-# Certificate field options
+####################################################################
+[ CA_default ]
 
-default_days    = 365           
-# how long to certify for
-default_crl_days  = 60          
-# how long before next CRL
-default_md  = md5       
-# use public key default MD
-preserve    = no            
-# keep passed DN ordering
+dir             = openvpn/pki     # Where everything is kept
+certs           = $dir                  # Where the issued certs are kept
+crl_dir         = $dir                  # Where the issued crl are kept
+database        = $dir/index.txt        # database index file.
+new_certs_dir   = $dir/certs_by_serial  # default place for new certs.
 
-policy          = policy_match
+certificate     = $dir/ca.crt           # The CA certificate
+serial          = $dir/serial           # The current serial number
+crl             = $dir/crl.pem          # The current CRL
+private_key     = $dir/private/ca.key   # The private key
+RANDFILE        = $dir/.rand            # private random number file
 
+x509_extensions = basic_exts            # The extentions to add to the cert
 
+# This allows a V2 CRL. Ancient browsers don't like it, but anything Easy-RSA
+# is designed for will. In return, we get the Issuer attached to CRLs.
+crl_extensions  = crl_ext
+
+default_days    = 365     # how long to certify for
+default_crl_days= 30        # how long before next CRL
+default_md      = md5          # use public key default MD
+preserve        = no                    # keep passed DN ordering
+
+# A few difference way of specifying how similar the request should look
+# For type CA, the listed attributes must be the same, and the optional
+# and supplied fields are just that :-)
+policy          = policy_anything
+
+# for pypki
 use_smartcard = False
 smartcard_slot = 0:2
 chain_file = $dir/ca_chain.crt
 
-
-[ policy_match ]
-countryName     = match
-stateOrProvinceName = optional
-localityName            = optional 
-organizationName    = match
-organizationalUnitName  = optional
-commonName      = supplied
-emailAddress        = optional
-
+# For the 'anything' policy, which defines allowed DN fields
 [ policy_anything ]
-countryName     = optional
-stateOrProvinceName = optional
-localityName        = optional
-organizationName    = optional
+countryName             = optional
+stateOrProvinceName     = optional
+localityName            = optional
+organizationName        = optional
 organizationalUnitName  = optional
-commonName      = supplied
-emailAddress        = optional
+commonName              = supplied
+name                    = optional
+emailAddress            = optional
 
-[ policy_usr ]
-countryName     = supplied
-stateOrProvinceName = optional
-localityName        = optional
-organizationName    = supplied
-organizationalUnitName  = optional
-commonName      = supplied
-emailAddress        = supplied
-
+####################################################################
+# Easy-RSA request handling
+# We key off $DN_MODE to determine how to format the DN
 [ req ]
-default_bits        = 2048
-default_keyfile     = privkey.pem
-distinguished_name  = req_distinguished_name
-attributes      = req_attributes
-x509_extensions = v3_ca # The extentions to add to the self signed cert
-string_mask = nombstr
+default_bits            = 2048
+default_keyfile         = privkey.pem
 
-[ req_distinguished_name ]
-countryName         = Country Name (2 letter code)
-countryName_default     = RU
-countryName_min         = 2
-countryName_max         = 2
+distinguished_name      = req_distinguished_name
+x509_extensions         = easyrsa_ca    # The extentions to add to the self signed cert
 
-stateOrProvinceName     = State or Province Name (full name)
-stateOrProvinceName_default = 
+# A placeholder to handle the $EXTRA_EXTS feature:
+#%EXTRA_EXTS%   # Do NOT remove or change this line as $EXTRA_EXTS support requires it
 
-localityName            = Locality Name (eg, city)
-localityName_default        = Moscow
+####################################################################
+# Easy-RSA DN (Subject) handling
 
-0.organizationName      = Organization Name (eg, company)
-0.organizationName_default  = Company
-
-1.organizationName      = Second Organization Name (eg, company)
-1.organizationName_default  = not used
-
-organizationalUnitName      = Organizational Unit Name (eg, section)
-organizationalUnitName_default  = CA project
-
-commonName          = Common Name (eg, YOUR name)
+# Easy-RSA DN for cn_only support:
+[ cn_only ]
+commonName              = Common Name (eg: your user, host, or server name)
 commonName_max          = 64
 
-emailAddress            = Email Address
-emailAddress_max        = 64
 
-[ req_attributes ]
-# challengePassword     = A challenge password
-# challengePassword_min     = 4
-# challengePassword_max     = 20
+# Easy-RSA DN for org support:
+[ req_distinguished_name ]
+countryName                     = Country Name (2 letter code)
+countryName_default             = US
+countryName_min                 = 2
+countryName_max                 = 2
 
-# unstructuredName      = An optional company name
+stateOrProvinceName             = State or Province Name (full name)
+stateOrProvinceName_default     = no
 
-[ srv_cert ]
-basicConstraints=CA:FALSE
-nsCertType            = server
-crlDistributionPoints = URI:http://openca.stepcart.com/crl.pem
-nsComment           = "OpenSSL Generated Server Certificate"
+localityName                    = Locality Name (eg, city)
+localityName_default            = no
 
-[ usr_cert ]
-basicConstraints=CA:FALSE
-nsCertType = client, email
-nsComment           = "OpenSSL Generated Client Certificate"
-subjectKeyIdentifier=hash
-authorityKeyIdentifier=keyid,issuer:always
+0.organizationName              = Organization Name (eg, company)
+0.organizationName_default      = no
 
-[ v3_req ]
-basicConstraints = CA:FALSE
-keyUsage = nonRepudiation, digitalSignature, keyEncipherment
+organizationalUnitName          = Organizational Unit Name (eg, section)
+organizationalUnitName_default  = no
 
-[ v3_ca ]
-# Extensions for a typical CA
+commonName                      = Common Name (eg: your user, host, or server name)
+commonName_max                  = 64
+commonName_default              = no
+
+emailAddress                    = Email Address
+emailAddress_default            = no
+emailAddress_max                = 64
+
+####################################################################
+# Easy-RSA cert extension handling
+
+# This section is effectively unused as the main script sets extensions
+# dynamically. This core section is left to support the odd usecase where
+# a user calls openssl directly.
+[ basic_exts ]
+basicConstraints        = CA:FALSE
+subjectKeyIdentifier    = hash
+authorityKeyIdentifier  = keyid,issuer:always
+
+# The Easy-RSA CA extensions
+[ easyrsa_ca ]
+
+# PKIX recommendations:
+
 subjectKeyIdentifier=hash
 authorityKeyIdentifier=keyid:always,issuer:always
+
+# This could be marked critical, but it's nice to support reading by any
+# broken clients who attempt to do so.
 basicConstraints = CA:true
 
-[ crl_ext ]
+# Limit key usage to CA tasks. If you really want to use the generated pair as
+# a self-signed cert, comment this out.
+keyUsage = cRLSign, keyCertSign
+
+# nsCertType omitted by default. Let's try to let the deprecated stuff die.
+# nsCertType = sslCA
+
 # CRL extensions.
+[ crl_ext ]
+
+# Only issuerAltName and authorityKeyIdentifier make any sense in a CRL.
+
+# issuerAltName=issuer:copy
 authorityKeyIdentifier=keyid:always,issuer:always
 
-## Establishing our CA’s
-### Setup Root CA

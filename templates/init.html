@@ -1,0 +1,51 @@
+$def with (form, version, current)
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Init pki</title>
+
+        <!-- Bootstrap -->
+        <link href="static/css/flatly/bootstrap.min.css" rel="stylesheet">
+    </head>
+
+    <body>
+       
+        <!-- Header -->
+        <div class="container-fluid">
+            <!-- Page title -->
+        </div>
+        <h1 style="color:red;">$current</h1>
+
+        <!-- Content Grid -->
+        <container class="container-fluid">
+            <!-- First row -->
+            <div class="row-fluid">
+                <div class="col-md-12">
+                    <form name="main" method="post" class="form-horizontal">
+                        <legend>init CA Parameters</legend>
+                        <fieldset>
+                            $if not form.valid: <p class="help-block warning"><h4>Please verify input values</h4></p>
+                            $:form.render()
+                            <br>
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <input type="submit" class="btn btn-sm btn-primary"/>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </container>
+
+        <!-- Footer -->
+        <div class="navbar-footer navbar-inverse navbar-fixed-bottom">
+        </div>
+
+        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <!-- Include all compiled plugins (below), or include individual files as needed -->
+        <script src="static/js/bootstrap.min.js"></script>
+    </body>
+</html>
