@@ -1,4 +1,4 @@
 .git
-build/*
+build
 templates/test_templ
-pki/*
+pki
