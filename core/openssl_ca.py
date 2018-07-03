@@ -273,7 +273,7 @@ class CSR(object):
         self.openssl_cfg_string = '[ req ]\n' \
                                   'default_bits = {keylength}\n' \
                                   'prompt = no\n' \
-                                  'default_md = sha265\n' \
+                                  'default_md = sha256\n' \
                                   'distinguished_name = dn\n'.format(keylength=self.keylength)
 
         if self.certtype == 'Server':
